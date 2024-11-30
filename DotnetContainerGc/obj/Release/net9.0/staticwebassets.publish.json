@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "VGYL/4fAGqI0ghHwIXKuHAsPATYgt4vJsS6WWHZxQkQ=",
+  "Source": "DotnetContainerGc",
+  "BasePath": "_content/DotnetContainerGc",
+  "Mode": "Default",
+  "ManifestType": "Publish",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}

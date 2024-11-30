@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dotnet-gc-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dotnet-gc-app
+  template:
+    metadata:
+      labels:
+        app: dotnet-gc-app
+    spec:
+      containers:
+        - name: dotnet-gc-container
+          image: dotnet-container-gc:dotnet9
+          # image: dotnet-container-gc:dotnet8
+          imagePullPolicy: Never # Force minikube to use local image
+          ports:
+            - containerPort: 8080
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "1" # Allow server GC to operate
+            limits:
+              memory: "1Gi"
+              cpu: "1"

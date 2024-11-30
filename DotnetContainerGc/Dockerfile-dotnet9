@@ -1,0 +1,17 @@
+FROM mcr.microsoft.com/dotnet/sdk:9.0-alpine3.20
+
+# http ports
+EXPOSE 8080
+
+# Create a non-root runtime user
+RUN adduser -D -h /app -u 9002 nonroot && chown -R nonroot /app
+
+# Switch to the non-root user using its numeric ID
+USER 9002
+
+# finally get the app to run
+WORKDIR /app
+# Copy build output from build
+COPY /publish .
+
+ENTRYPOINT ["dotnet", "DotnetContainerGc.dll"]
