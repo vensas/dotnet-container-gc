@@ -1,6 +1,6 @@
 # Dotnet Containerization and Garbage Collection 
 
-ℹ️ This example was put together on a Mac using shell scripts and [homebrew](https://brew.sh). 
+ℹ️ This example was put together on a Mac using a *nix shell scripts and [homebrew](https://brew.sh) and may not work in other environments.
 
 ## Motivation
 
@@ -8,25 +8,29 @@
 
 ## Setup
 
+### Install dependencies
+
+```sh
+brew install minikube kubectl kustomization k6
+```
+
 ### Run a local kubernetes cluster
 
 ```sh
-brew install minikube
 minikube start
+```
+
+*Note: To configure shell to use minikube docker environment, run*
+
+```sh
+eval $(minikube -p minikube docker-env)
 ```
 
 ### Build the image
 
 ```sh
-eval $(minikube -p minikube docker-env) # Configure the shell to use minikube docker environment
-cd DotnetContainerGc
-dotnet clean
-dotnet publish DotnetContainerGc.csproj -c Release -o ./publish
-docker build -t dotnet-container-gc:dotnet9 -f Dockerfile-dotnet9 .
-cd ..
+make build
 ```
-
-Change `TargetFramework` in `./DotnetContainerGc/DotnetContainerGc.csproj` manually and build again with tag `dotnet8`.
 
 ### Verify image is available
 ```sh
@@ -36,21 +40,16 @@ minikube image ls --format table
 ### Setup test environment
 ```sh
 kubectl apply -f ./kubectl/observability
-kubectl apply -f ./kubectl/application
 ```
 
-### Expose service through minikube
+### Deploy service and expose endpoint
 
 ```sh
-minikube service dotnet-gc-service --url
+make serve_dotnet8 # for dotnet 8
+make serve_dotnet9 # for dotnet 9
 ```
 
-### Test service 
-
-```sh
-curl <url>/people
-# Should print an empty array
-```
+Service is exposed on a random port on localhost. Copy URL and port printed out.
 
 ## Run Tests
 
@@ -62,9 +61,7 @@ brew install k6
 ### Run k6 tests
 
 ```sh
-minikube service dotnet-gc-service --url
-# Copy URL
-k6 run k6/test.js -e BASE_URL=<url> -e MAX_USERS=100
+k6 run k6/test.js -e MAX_USERS=<user count> -e BASE_URL<url copied above>
 ```
 
 ### Access Grafana
@@ -77,12 +74,7 @@ Import Dashboard JSON from `./grafana/dotnet-opentelemetry-dashboard.json`.
 
 ## Teardown
 
-### Teardown test environment
-```sh
-kubectl delete -f ./kubectl
-```
-
-### Reset shell configuration for minikube
+### Reset shell configuration
 ```sh
  eval $(minikube docker-env --unset)
 ```

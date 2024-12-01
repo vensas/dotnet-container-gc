@@ -105,7 +105,7 @@
       "targets": [
         {
           "editorMode": "code",
-          "expr": "sum(rate(process_cpu_time_seconds_total[5m])) by (job)",
+          "expr": "sum(rate(process_cpu_time_seconds_total[$__rate_interval])) by (job)",
           "legendFormat": "{{instance}}",
           "range": true,
           "refId": "A"
@@ -198,13 +198,13 @@
       "targets": [
         {
           "editorMode": "code",
-          "expr": "rate(http_server_request_duration_seconds_count[5m])",
+          "expr": "rate(http_server_request_duration_seconds_count[$__rate_interval])",
           "legendFormat": "{{http_request_method}} {{http_route}}",
           "range": true,
           "refId": "A"
         }
       ],
-      "title": "HTTP Requests per Second",
+      "title": "HTTP Requests",
       "type": "timeseries"
     },
     {
@@ -291,7 +291,7 @@
       "targets": [
         {
           "editorMode": "code",
-          "expr": "max_over_time(process_memory_usage_bytes[$__rate_interval])",
+          "expr": "process_memory_usage_bytes",
           "legendFormat": "Process",
           "range": true,
           "refId": "A"
@@ -302,7 +302,7 @@
             "uid": "PBFE396EC0B189D67"
           },
           "editorMode": "code",
-          "expr": "max_over_time(process_runtime_dotnet_gc_committed_memory_size_bytes[$__rate_interval])",
+          "expr": "process_runtime_dotnet_gc_committed_memory_size_bytes",
           "hide": false,
           "instant": false,
           "legendFormat": ".NET Committed",
@@ -315,7 +315,7 @@
             "uid": "PBFE396EC0B189D67"
           },
           "editorMode": "code",
-          "expr": "max_over_time(process_runtime_dotnet_gc_allocations_size_bytes_total[$__rate_interval])",
+          "expr": "process_runtime_dotnet_gc_allocations_size_bytes_total",
           "hide": false,
           "instant": false,
           "legendFormat": ".NET Allocations",
@@ -323,7 +323,7 @@
           "refId": "C"
         }
       ],
-      "title": "Memory Usage",
+      "title": "Memory Allocation",
       "type": "timeseries"
     },
     {
@@ -383,7 +383,7 @@
               }
             ]
           },
-          "unit": "none"
+          "unit": "cps"
         },
         "overrides": []
       },
@@ -414,13 +414,13 @@
             "uid": "PBFE396EC0B189D67"
           },
           "editorMode": "code",
-          "expr": "irate(process_runtime_dotnet_gc_collections_count_total[5m])",
+          "expr": "irate(process_runtime_dotnet_gc_collections_count_total[1m])",
           "legendFormat": "{{generation}}",
           "range": true,
           "refId": "A"
         }
       ],
-      "title": "Garbage Collections",
+      "title": "Garbage Collections Time",
       "type": "timeseries"
     },
     {
@@ -507,7 +507,7 @@
       "targets": [
         {
           "editorMode": "code",
-          "expr": "max_over_time(process_runtime_dotnet_gc_heap_size_bytes[$__rate_interval])",
+          "expr": "process_runtime_dotnet_gc_heap_size_bytes",
           "legendFormat": "{{generation}}",
           "range": true,
           "refId": "A"
@@ -524,13 +524,13 @@
     "list": []
   },
   "time": {
-    "from": "now-5m",
-    "to": "now"
+    "from": "2024-12-01T21:34:59.671Z",
+    "to": "2024-12-01T21:38:05.268Z"
   },
   "timepicker": {},
   "timezone": "browser",
   "title": ".NET OpenTelemetry",
   "uid": "ee5h684i0jmdca",
-  "version": 1,
+  "version": 7,
   "weekStart": ""
 }

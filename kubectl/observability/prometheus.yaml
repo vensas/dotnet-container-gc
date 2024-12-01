@@ -6,6 +6,7 @@ data:
   prometheus.yml: |
     scrape_configs:
       - job_name: 'dotnet-app'
+        scrape_interval: 5s
         static_configs:
           - targets: ['dotnet-gc-service:80']  # Update with your service name and port
 

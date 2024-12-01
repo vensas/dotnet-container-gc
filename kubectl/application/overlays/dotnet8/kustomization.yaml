@@ -1,0 +1,6 @@
+resources:
+- ../../base
+
+images:
+- name: dotnet-container-gc
+  newTag: dotnet8

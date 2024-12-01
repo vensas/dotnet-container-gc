@@ -15,7 +15,6 @@ spec:
       containers:
         - name: dotnet-gc-container
           image: dotnet-container-gc:dotnet9
-          # image: dotnet-container-gc:dotnet8
           imagePullPolicy: Never # Force minikube to use local image
           ports:
             - containerPort: 8080
