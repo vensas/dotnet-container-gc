@@ -1,4 +1,4 @@
-DotnetContainerGc/publish/
 bin/
 obj/
 *.user
+publish/
