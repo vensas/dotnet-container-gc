@@ -9,6 +9,18 @@ data:
         scrape_interval: 5s
         static_configs:
           - targets: ['dotnet-gc-service:80']  # Update with your service name and port
+      - job_name: 'kubelet-cadvisor'
+        scrape_interval: 5s
+        metrics_path: /metrics/cadvisor
+        tls_config:
+          insecure_skip_verify: true
+        kubernetes_sd_configs:
+          - role: node
+        relabel_configs:
+          - source_labels: [__address__]
+            regex: '(.*):.*'
+            target_label: __address__
+            replacement: '$1:10250'
 
 ---
 apiVersion: apps/v1

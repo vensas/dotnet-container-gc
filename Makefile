@@ -1,4 +1,4 @@
-.PHONY : restart serve test_1 test_10 test_100 test_1000
+.PHONY : restart serve test_1 test_10 test_100 test_1000 grafana
 
 build:
 	eval $(minikube -p minikube docker-env) && \
@@ -18,6 +18,9 @@ deploy_dotnet8:
 deploy_dotnet9:
 	kubectl apply -k kubectl/application/overlays/dotnet9
 
+deploy_observability:
+	kubectl apply -f kubectl/observability
+
 undeploy:
 	kubectl delete deployment dotnet-gc-app --ignore-not-found=true
 
@@ -27,3 +30,6 @@ serve:
 serve_dotnet8: undeploy deploy_dotnet8 serve
 
 serve_dotnet9: undeploy deploy_dotnet9 serve
+
+grafana:
+	minikube service grafana --url
